@@ -1,7 +1,0 @@
-tensorflow
-numpy
-pandas
-flask
-google_auth_oauthlib
-requests
-google-auth
