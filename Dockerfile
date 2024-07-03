@@ -3,4 +3,4 @@ WORKDIR /app
 COPY . /app
 RUN pip install -r requirements.txt
 EXPOSE $PORT
-CMD --bind 0.0.0.0:$PORT app:app
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
