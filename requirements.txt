@@ -1,7 +1,8 @@
-tensorflow
+tensorflow==2.15.0
 numpy
 pandas
 flask
 google_auth_oauthlib
 requests
 google-auth
+gunicorn
