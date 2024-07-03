@@ -27,7 +27,7 @@ flow = Flow.from_client_secrets_file(
     client_secrets_file,
     scopes=["https://www.googleapis.com/auth/userinfo.profile", 
             "https://www.googleapis.com/auth/userinfo.email", "openid","https://www.googleapis.com/auth/youtube.force-ssl"],
-    redirect_uri="http://localhost:3000/auth/google/callback"
+    redirect_uri="https://yt-toxic-commet-removal.onrender.com/auth/google/callback"
 )
 
 GET_COMMENTS_URL = "https://www.googleapis.com/youtube/v3/commentThreads"
