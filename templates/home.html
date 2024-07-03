@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YT</title>
+</head>
+<body>
+    <h1>Welcome! {{ data.name }}</h1>
+    <a href="/logout"><button>Logout</button></a>
+    <form action="/submit" method="post">
+        <input type="text" name="urln" id="urli" placeholder="Enter the youtube video URL">
+        <button type="submit">Submit</button>
+    </form>
+    <h2> {{ final_text }}</h2>
+</body>
+</html>
