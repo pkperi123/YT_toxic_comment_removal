@@ -1,6 +1,6 @@
 import os
 import pathlib
-from flask import Flask,render_template,session,redirect,abort,request,jsonify
+from flask import Flask,render_template,session,redirect,abort,request,jsonify,url_for
 from google_auth_oauthlib.flow import Flow
 from google.oauth2 import id_token
 import requests
@@ -81,10 +81,13 @@ def index():
 @app.route("/protected_area")
 @login_is_required
 def protected_area():
-    data = {
-        "name": session["name"],
+    data2 = {
+        "name": session["name"]
     }
-    return render_template("home.html", data=data)
+    if "del_comments" in session:
+        data2["deleted_comments"] = session["del_comments"]
+    
+    return render_template("home.html", data=data2)
 
 @app.route("/submit",methods=["POST"])
 def submit():
@@ -144,10 +147,10 @@ def process_cmts():
 @app.route("/remove_comments",methods=["GET","POST"])
 def remove_comments():
     cmts = session.get("comments")
-    print(session.get("Access_token"))
+    li = []
     for comment in cmts:
         if comment["prediction"]:
-            print(comment["comment_text"])
+            #print(comment["comment_text"])
             params = {
                 "id": comment["comment_id"],
                 "moderationStatus": "rejected"
@@ -159,7 +162,9 @@ def remove_comments():
             if response.status_code != 204:
                 print(response)
             else:
+                li.append(comment["comment_text"])
                 print("Comment deleted successfully!")
+    session["del_comments"] = li           
     return redirect("/protected_area")
 
 
