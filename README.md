@@ -1,0 +1,1 @@
+A LSTM model that detects the sentiments of the comments and removes the toxic comments from the youtube comments section using the Youtube Data API V3. Containerized the model using Docker and deployed it on Render
