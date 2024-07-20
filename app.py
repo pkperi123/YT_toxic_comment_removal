@@ -33,6 +33,15 @@ flow = Flow.from_client_secrets_file(
 GET_COMMENTS_URL = "https://www.googleapis.com/youtube/v3/commentThreads"
 REMOVE_COMMENTS_URL = "https://www.googleapis.com/youtube/v3/comments/setModerationStatus"
 
+model = tf.keras.models.load_model('python-model/toxicity_colab.h5')
+MAX_FEATURES = 200000 # number of words in the vocab
+df = pd.read_csv('new_train - train.csv')
+X = df['comment_text']
+vectorizer = layers.TextVectorization(max_tokens=MAX_FEATURES,
+                               output_sequence_length=1800,
+                               output_mode='int')
+vectorizer.adapt(X.values)
+
 def login_is_required(function):
     def wrapper(*args, **kwargs):
         if "google_id" not in session:
@@ -123,14 +132,7 @@ def submit():
 @app.route("/process_comments",methods=["GET","POST"])
 def process_cmts():
     cmts = session.get("comments")
-    model = tf.keras.models.load_model('python-model/toxicity_colab.h5')
-    MAX_FEATURES = 200000 # number of words in the vocab
-    df = pd.read_csv('new_train - train.csv')
-    X = df['comment_text']
-    vectorizer = layers.TextVectorization(max_tokens=MAX_FEATURES,
-                               output_sequence_length=1800,
-                               output_mode='int')
-    vectorizer.adapt(X.values)
+    
     for comment in cmts:
         vectorized_comment = vectorizer([comment["comment_text"]])
         results = model.predict(vectorized_comment)
